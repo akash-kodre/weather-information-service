@@ -1,0 +1,245 @@
+openapi: 3.0.1
+info:
+  title: Weather Information Service API
+  description: API for retrieving weather information for cities.
+  version: 0.1.0
+servers:
+  - url: 'https://localhost:{port}/weather/v1'
+    description: Local Development Server url
+tags:
+  - name: Weather information
+    description: API to manage weather information for different cities.
+paths:
+  /cities:
+    post:
+      tags:
+        - Weather information
+      summary: Add weather data for a city
+      operationId: addWeatherData
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/weatherAddData'
+      responses:
+        '200':
+          description: Weather data added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/weatherDataCreateResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '422':
+          $ref: '#/components/responses/422UnprocessableEntity'
+    get:
+      tags:
+        - Weather information
+      summary: Get weather data for all cities
+      operationId: getAllWeatherData
+      parameters:
+        - name: date
+          in: query
+          description: Date
+          required: true
+          schema:
+            type: string
+            format: date
+            pattern: "DD/MM/YYYY"
+      responses:
+        '200':
+          description: Fetch weather data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/weatherDataGetResponse'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '422':
+          $ref: '#/components/responses/422UnprocessableEntity'
+  /cities/{city}:
+    get:
+      tags:
+        - Weather information
+      summary: Get weather data for a specific city
+      operationId: getWeatherData
+      parameters:
+        - name: city
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Weather data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/weatherDataGetResponse'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+components:
+  schemas:
+    weatherDataCreateResponse:
+      type: object
+      required:
+        - success
+        - result
+      properties:
+        success:
+          type: boolean
+        result:
+            $ref: '#/components/schemas/weatherAddData'
+    
+    weatherDataGetResponse:
+      type: object
+      required:
+        - success
+        - result
+      properties:
+        success:
+          type: boolean
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/weatherGetData'
+            
+    weatherAddData:
+      type: object
+      properties:
+        city:
+          type: string
+          example: "Auckland"
+        
+        temp:
+          type: number
+          example: 19.1
+        unit:
+          type: string
+          example: "C"
+        weather:
+          type: string
+          enum:
+            - "Sunny"
+            - "Cloudy"
+            - "Rainy"
+            - "Snow"
+            - "Thunderstorm"
+    
+    weatherGetData:
+      type: object
+      properties:
+        city:
+          type: string
+          example: "Auckland"
+        weatherInfo:
+          type: array
+          items:
+            type: object
+            properties:
+              temp:
+                type: number
+                example: 35.1
+              unit:
+                type: string
+                example: "C"
+              weather:
+                type: string
+                enum:
+                  - "Sunny"
+                  - "Cloudy"
+                  - "Rainy"
+                  - "Snow"
+                  - "Thunderstorm"
+              dateTime:
+                type: string
+                example: "2020-10-09T15:45:00Z"
+  responses:
+    400BadRequest:
+      description: Bad request - Bad request parameters.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                default: false
+              error:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    trace:
+                      type: string
+                    code:
+                      type: integer
+                    message:
+                      type: string
+                    status:
+                      type: string
+                example:
+                  - trace: 0681f13a-445c-470c-84a7-c5108734f355
+                    code: 400003
+                    message: Incorrect request parameters
+                    status: Bad request
+    404NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                default: false
+              error:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    trace:
+                      type: string
+                    code:
+                      type: integer
+                    message:
+                      type: string
+                    status:
+                      type: string
+                example:
+                  - trace: be45687c-57f2-46e8-8717-32b3153a5886
+                    code: 404001
+                    message: Resource not found
+                    status: Not found
+    422UnprocessableEntity:
+      description: Unprocessable Entity. Problem with the Request.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                default: false
+              error:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    trace:
+                      type: string
+                    code:
+                      type: integer
+                    message:
+                      type: string
+                    status:
+                      type: string
+                example:
+                  - trace: be45687c-57f2-46e8-8717-32b3153a5886
+                    code: 422002
+                    message: Unprocessable Entity
+                    status: Unprocessable Entity
+    
