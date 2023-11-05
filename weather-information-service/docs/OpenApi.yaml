@@ -1,0 +1,228 @@
+openapi: 3.0.1
+info:
+  title: Weather Information Service API
+  description: API for retrieving weather information for cities.
+  version: 0.1.0
+servers:
+  - url: 'https://localhost:{port}/weather/v1'
+    description: Local Development Server url
+tags:
+  - name: Weather information
+    description: API to manage weather information for different cities.
+paths:
+  /cities:
+    post:
+      tags:
+        - Weather information
+      summary: Add weather data for a city
+      operationId: addWeatherData
+      description: API to create weather record for a city.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/weatherAddData'
+      responses:
+        '200':
+          description: Weather data added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/weatherDataCreateResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+    get:
+      tags:
+        - Weather information
+      summary: Get weather data for all cities
+      operationId: getAllWeatherData
+      description: API to fetch all weather records.
+      responses:
+        '200':
+          description: Fetch weather data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/weatherDataGetResponse'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    put:
+      tags:
+        - Weather information
+      summary: Edit weather data for a city.
+      operationId: editWeatherData
+      description: API to edit weather data of a city. If city is not present, it will create new weather record for the city.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/weatherAddData'
+      responses:
+        '200':
+          description: Weather data added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/weatherDataCreateResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /cities/{city}:
+    get:
+      tags:
+        - Weather information
+      summary: Get weather data for a specific city
+      operationId: getCityWeatherData
+      description: API to fetch all weather records for requested city.
+      parameters:
+        - name: city
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Weather data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cityWeatherDataGetResponse'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+components:
+  schemas:
+    weatherDataCreateResponse:
+      type: object
+      required:
+        - success
+        - result
+      properties:
+        success:
+          type: boolean
+        result:
+            $ref: '#/components/schemas/weatherAddData'
+    
+    weatherDataGetResponse:
+      type: object
+      required:
+        - success
+        - result
+      properties:
+        success:
+          type: boolean
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/weatherGetData'
+    
+    cityWeatherDataGetResponse:
+      type: object
+      required:
+        - success
+        - result
+      properties:
+        success:
+          type: boolean
+        result:
+          $ref: '#/components/schemas/weatherGetData'
+            
+    weatherAddData:
+      type: object
+      required:
+        - city
+      properties:
+        city:
+          type: string
+          example: "Auckland"
+        temp:
+          type: number
+          example: 19.1
+        unit:
+          type: string
+          example: "C"
+        weather:
+          type: string
+          enum:
+            - "Sunny"
+            - "Cloudy"
+            - "Rainy"
+            - "Snow"
+            - "Thunderstorm"
+    
+    weatherGetData:
+      type: object
+      properties:
+        city:
+          type: string
+          example: "Auckland"
+        temp:
+          type: number
+          example: 35.1
+        unit:
+          type: string
+          example: "C"
+        weather:
+          type: string
+          enum:
+            - "Sunny"
+            - "Cloudy"
+            - "Rainy"
+            - "Snow"
+            - "Thunderstorm"
+        dateTime:
+          type: string
+          example: "2020-10-09T15:45:00Z"
+  responses:
+    400BadRequest:
+      description: Bad request - Bad request parameters.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                default: false
+              error:
+                type: object
+                properties:
+                    trace:
+                      type: string
+                    code:
+                      type: integer
+                    message:
+                      type: string
+                    status:
+                      type: string
+                example:
+                  code: 400001
+                  message: Incorrect request parameters
+                  status: Bad request
+    404NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                default: false
+              error:
+                type: object
+                properties:
+                    trace:
+                      type: string
+                    code:
+                      type: integer
+                    message:
+                      type: string
+                    status:
+                      type: string
+                example:
+                  code: 404001
+                  message: Resource not found
+                  status: Not found
