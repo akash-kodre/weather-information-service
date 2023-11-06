@@ -4,6 +4,8 @@ package com.example.weatherinformationservice.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +16,12 @@ import com.example.weatherinformationservice.exceptions.InvalidInputException;
 import com.example.weatherinformationservice.model.dao.WeatherInformationDao;
 import com.example.weatherinformationservice.model.dto.CityWeatherDto;
 import com.example.weatherinformationservice.service.impl.WeatherInformationImpl;
-import com.example.weatherinformationservice.utils.SuccessResponseDto;
+import com.example.weatherinformationservice.utils.CityListResponseDto;
+import com.example.weatherinformationservice.utils.CityResponseDto;
 
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 
 
 @RestController
@@ -31,14 +36,17 @@ public class WeatherInformationController {
     WeatherInformationDao weatherInformationDao;
     
     @PostMapping("/cities")
-    public ResponseEntity<SuccessResponseDto> addCityWeatherInformation(@Valid @RequestBody CityWeatherDto cityWeatherDto){
-        if(cityWeatherDto.getName() != null && !cityWeatherDto.getName().isEmpty()){
-            if(cityWeatherDto.getName().matches("^[0-9]+$")){
-                throw new InvalidInputException("BAD REQUEST", 400002, "'name' value should not be numeric string", 400);
-            }
-            return weatherInformationImpl.saveWeatherInfo(cityWeatherDto);
-        } else {
-            throw new CustomException("BAD REQUEST", 400001, "Missing required property 'city'", 400);
-        }
+    public ResponseEntity<CityResponseDto> addCityWeatherInformation(@Valid @RequestBody CityWeatherDto cityWeatherDto){
+        return weatherInformationImpl.saveWeatherInfo(cityWeatherDto);
+    }
+
+    @GetMapping("/cities")
+    public ResponseEntity<CityListResponseDto> fetchAllCityWeatherInformation(){
+        return weatherInformationImpl.getWeatherRecords();
+    }
+
+    @GetMapping("/cities/{city}")
+    public ResponseEntity<CityResponseDto> fetchCityWeatherInformation(@NotBlank @PathVariable ("city") String city){
+        return weatherInformationImpl.getCityWeatherRecords(city);
     }
 }

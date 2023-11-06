@@ -1,5 +1,7 @@
 package com.example.weatherinformationservice.utils;
 
+import java.util.List;
+
 import com.example.weatherinformationservice.model.dto.CityWeatherDto;
 
 import lombok.Getter;
@@ -7,8 +9,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SuccessResponseDto {
+public class CityListResponseDto {
     
     private boolean success;
-    private CityWeatherDto result;
+    private List<CityWeatherDto> result;
 }
