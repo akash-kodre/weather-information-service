@@ -60,6 +60,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>weather-information-service</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -75,5 +76,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

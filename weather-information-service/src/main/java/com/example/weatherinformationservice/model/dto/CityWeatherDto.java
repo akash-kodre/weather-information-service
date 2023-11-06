@@ -1,9 +1,8 @@
 package com.example.weatherinformationservice.model.dto;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.springframework.lang.NonNull;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import com.example.weatherinformationservice.model.dto.CityWeatherDto;
 import com.example.weatherinformationservice.model.entities.CityWeather;
 

@@ -2,7 +2,6 @@ package com.example.weatherinformationservice.model.entities;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
