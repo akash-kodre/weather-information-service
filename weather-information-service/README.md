@@ -31,7 +31,7 @@ The service uses a 6 digit error code mechanism to further define the exact type
 
 ### Future considerations ###
 
-This simplest form for demostrating Springboot rest microservice to manage single weather record for each city with basic validation. In future this can be made extensible by considering:
+This is simplest form of demonstrating Springboot rest microservice to manage single weather record for each city with basic validation. In future this can be made extensible by considering:
 - Create seperate entities for City and Weather records.
 - Managing different temperature units.
 - Managing weather through Enums.
