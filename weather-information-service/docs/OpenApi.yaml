@@ -132,9 +132,9 @@ components:
     weatherAddData:
       type: object
       required:
-        - city
+        - name
       properties:
-        city:
+        name:
           type: string
           example: "Auckland"
         temp:
@@ -155,7 +155,7 @@ components:
     weatherGetData:
       type: object
       properties:
-        city:
+        name:
           type: string
           example: "Auckland"
         temp:

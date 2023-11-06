@@ -23,4 +23,11 @@ public class CityWeather {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp dateTime;
+
+    public CityWeather(String name) {
+        this.name = name;
+    }
+
+    public CityWeather() {
+    }
 }
