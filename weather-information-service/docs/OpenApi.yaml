@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Weather Information Service API
   description: API for retrieving weather information for cities.
-  version: 0.1.0
+  version: 1.0.0
 servers:
   - url: 'https://localhost:{port}/weather/v1'
     description: Local Development Server url
