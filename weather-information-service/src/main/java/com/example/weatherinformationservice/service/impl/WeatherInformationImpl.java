@@ -2,6 +2,8 @@ package com.example.weatherinformationservice.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ import com.example.weatherinformationservice.utils.CityResponseDto;
 @Service
 public class WeatherInformationImpl implements WeatherInformationService{
 
+    private static final Logger logger = LoggerFactory.getLogger(WeatherInformationImpl.class);
+
     @Autowired
     WeatherInformationDao weatherInformationDao;
 
@@ -35,6 +39,7 @@ public class WeatherInformationImpl implements WeatherInformationService{
             CityResponseDto cityResponseDto = new CityResponseDto();
             cityResponseDto.setSuccess(true);
             cityResponseDto.setResult(cityWeatherDto);
+            logger.info("Weather record has been created for city:"+cityWeatherDto.getName());;
             return new ResponseEntity<CityResponseDto>(cityResponseDto,HttpStatusCode.valueOf(200));
         } else {
             throw new CustomException("BAD REQUEST", 400001, "Missing required property 'name'", 400);

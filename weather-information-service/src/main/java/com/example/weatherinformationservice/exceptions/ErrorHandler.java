@@ -1,19 +1,20 @@
 package com.example.weatherinformationservice.exceptions;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
 import com.example.weatherinformationservice.utils.ErrorDto;
 import com.example.weatherinformationservice.utils.ErrorResponseDto;
-
 import jakarta.validation.ConstraintViolationException;
 
 @ControllerAdvice
 public class ErrorHandler extends ResponseEntityExceptionHandler{
+    private static final Logger logger = LoggerFactory.getLogger(ErrorHandler.class);
     
     @ExceptionHandler(value = {CustomException.class})
     public ResponseEntity<ErrorResponseDto> handleBadRequestExceptions(CustomException e) {
@@ -24,6 +25,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler{
         errorDto.setStatus(e.getStatus());
         errorResponseDto.setSuccess(false);
         errorResponseDto.setError(errorDto);
+        logger.error(errorDto.getMessage());
         return new ResponseEntity<ErrorResponseDto>(errorResponseDto,HttpStatusCode.valueOf(e.getHttpCode()));
     }
 
@@ -36,6 +38,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler{
         errorDto.setStatus(e.getStatus());
         errorResponseDto.setSuccess(false);
         errorResponseDto.setError(errorDto);
+        logger.error(errorDto.getMessage());
         return new ResponseEntity<ErrorResponseDto>(errorResponseDto,HttpStatusCode.valueOf(e.getHttpCode()));
     }
 
@@ -48,6 +51,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler{
         errorDto.setStatus(e.getStatus());
         errorResponseDto.setSuccess(false);
         errorResponseDto.setError(errorDto);
+        logger.error(errorDto.getMessage());
         return new ResponseEntity<ErrorResponseDto>(errorResponseDto,HttpStatusCode.valueOf(e.getHttpCode()));
     }
 
@@ -60,6 +64,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler{
         errorDto.setMessage("Parameter 'city' must be present");
         errorResponseDto.setSuccess(false);
         errorResponseDto.setError(errorDto);
+        logger.error(errorDto.getMessage());
         return new ResponseEntity<ErrorResponseDto>(errorResponseDto,HttpStatusCode.valueOf(400));
     }
 
@@ -72,6 +77,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler{
         errorDto.setMessage(e.getMessage());
         errorResponseDto.setSuccess(false);
         errorResponseDto.setError(errorDto);
+        logger.error(errorDto.getMessage());
         return new ResponseEntity<ErrorResponseDto>(errorResponseDto,HttpStatusCode.valueOf(500));
     }
 }
