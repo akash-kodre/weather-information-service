@@ -2,10 +2,8 @@ package com.example.weatherinformationservice.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -14,7 +12,6 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import com.example.weatherinformationservice.model.dto.CityWeatherDto;
 import com.example.weatherinformationservice.service.impl.WeatherInformationImpl;
 import com.example.weatherinformationservice.utils.CityListResponseDto;
@@ -36,7 +33,7 @@ public class WeatherInformationControllerTest {
         
         CityWeatherDto cityWeatherDto = new CityWeatherDto();
         cityWeatherDto.setName("Auckland");
-        when(weatherInformationImpl.saveWeatherInfo(any(CityWeatherDto.class)))
+        when(weatherInformationImpl.saveOrUpdateWeatherInfo(any(CityWeatherDto.class)))
             .thenReturn(new ResponseEntity<>(new CityResponseDto(), HttpStatus.OK));
         ResponseEntity<CityResponseDto> response = weatherInformationController.addCityWeatherInformation(cityWeatherDto);
         assertEquals(HttpStatus.OK, response.getStatusCode());

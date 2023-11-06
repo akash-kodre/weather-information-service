@@ -2,12 +2,10 @@ package com.example.weatherinformationservice.service.impl;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import com.example.weatherinformationservice.exceptions.CustomException;
 import com.example.weatherinformationservice.exceptions.InvalidInputException;
 import com.example.weatherinformationservice.exceptions.NoRecordFoundException;
@@ -26,7 +24,7 @@ public class WeatherInformationImpl implements WeatherInformationService{
     WeatherInformationDao weatherInformationDao;
 
     @Override
-    public ResponseEntity<CityResponseDto> saveWeatherInfo(CityWeatherDto cityWeatherDto) {
+    public ResponseEntity<CityResponseDto> saveOrUpdateWeatherInfo(CityWeatherDto cityWeatherDto) {
         if(cityWeatherDto.getName() != null && !cityWeatherDto.getName().isEmpty()){
             if(cityWeatherDto.getName().matches("^[0-9]+$")){
                 throw new InvalidInputException("BAD REQUEST", 400002, "'name' value should not be numeric string", 400);
@@ -43,6 +41,7 @@ public class WeatherInformationImpl implements WeatherInformationService{
         }        
     }
 
+    
     @Override
     public ResponseEntity<CityListResponseDto>  getWeatherRecords() {
         List<CityWeather> cityWeathers = weatherInformationDao.findAll();
