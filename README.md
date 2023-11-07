@@ -14,7 +14,7 @@ More information related to the service will be added, as changes will be made i
 
 
 #### Error-Codes
-The service uses a 6 digit error code mechanism to further define the exact type of the error code withing the same family of error codes
+The service uses a 6 digit error code mechanism to further define the exact type of the error code within the same family of error codes.
 
 **400001**	Property 'name' is missing or empty in the request body. 
 
@@ -24,9 +24,9 @@ The service uses a 6 digit error code mechanism to further define the exact type
 
 **400004**	Path property 'city' must be non-numeric string.
 
-**404001**	No records present for all cities. Create records first.
+**404001**	No weather records present for any cities. Create records first.
 
-**404002**	No records present for requested city.
+**404002**	No weather records present for requested city.
 
 
 ### Future considerations ###
