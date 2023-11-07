@@ -9,11 +9,27 @@ More information related to the service will be added, as changes will be made i
 
 ### Setting up ###
 
-* After download source code run WeatherInformationServiceApplication JAVA file.
+#### Download/Clone source code from the repo.
+
+#### Compile to create jar file by clean.
+* Open terminal inside project root directory 'weather-information-service' and run:
+
+```
+./mvnw clean install
+```
+
+#### Run the jar file to get application running.
+
+```
+java -jar target/weather-information-service.jar
+```
+
+#### Follow API specs to test APIs
 
 
 
-#### Error-Codes
+
+### Error-Codes
 The service uses a 6 digit error code mechanism to further define the exact type of the error code within the same family of error codes.
 
 **400001**	Property 'name' is missing or empty in the request body. 
