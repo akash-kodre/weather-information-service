@@ -11,7 +11,7 @@ More information related to the service will be added, as changes will be made i
 
 #### Download/Clone source code from the repo.
 
-#### Compile to create jar file by clean.
+#### Compile to create jar file.
 * Open terminal inside project root directory 'weather-information-service' and run:
 
 ```
